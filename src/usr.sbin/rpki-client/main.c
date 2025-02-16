@@ -1270,7 +1270,10 @@ main(int argc, char *argv[])
 		queue_add_file(tals[i], RTYPE_TAL, i);
 
 	if (filemode) {
-		while (*argv != NULL)
+		while (*argv != NULL) {
+			if (strlen(*argv) >= PATH_MAX) {
+				errx(1, "filename too long: %s", *argv);
+			}
 			queue_add_file(*argv++, RTYPE_FILE, 0);
 
 		if (unveil(cachedir, "r") == -1)
